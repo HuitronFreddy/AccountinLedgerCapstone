@@ -2,32 +2,18 @@ package org.example;
 
 public class Ledger {
 
-    private int month;
-    private int year;
+    private String date;
+    private String time;
+    private String description;
     private String vendor;
     private double amount;
 
-    public Ledger(int month, int year, String vendor, double amount) {
-        this.month = month;
-        this.year = year;
+    public Ledger(String date, String time, String description, String vendor, double amount) {
+        this.date = date;
+        this.time = time;
+        this.description = description;
         this.vendor = vendor;
         this.amount = amount;
-    }
-
-    public int getMonth() {
-        return month;
-    }
-
-    public void setMonth(int month) {
-        this.month = month;
-    }
-
-    public int getYear() {
-        return year;
-    }
-
-    public void setYear(int year) {
-        this.year = year;
     }
 
     public String getVendor() {
@@ -44,5 +30,29 @@ public class Ledger {
 
     public void setAmount(double amount) {
         this.amount = amount;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
+    }
+
+    public String getTime() {
+        return time;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 }

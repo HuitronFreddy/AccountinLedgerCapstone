@@ -1,1 +1,3 @@
-Month|Year|Vendor|Amount
+Date|Time|Description|Vendor|Amount
+2000-12-19|10:35|vet visit|spca|250.0
+2012-12-04|05:25|car note|toyota|500.0
