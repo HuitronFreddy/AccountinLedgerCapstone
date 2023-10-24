@@ -4,12 +4,19 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Scanner;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 
+import static org.example.Ledger.displayLedger;
 
 public class Main {
     public static void main(String[] args) {
-
         ArrayList<Ledger> transactionList = new ArrayList<>();
+
+        //setting date and time formats
+        DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm");
 
         try {
             FileInputStream fis = new FileInputStream("src/main/resources/transactions.csv");
@@ -19,8 +26,9 @@ public class Main {
                 String line = scanner.nextLine();
                 String[] transaction = line.split("\\|");
 
-                String date = transaction[0];
-                String time = transaction[1];
+                // Parse date and time
+                LocalDate date = LocalDate.parse(transaction[0], dateFormatter);
+                LocalTime time = LocalTime.parse(transaction[1], timeFormatter);
                 String description = transaction[2];
                 String vendor = transaction[3];
                 double amount = Double.parseDouble(transaction[4]);
@@ -35,7 +43,7 @@ public class Main {
         boolean isMakingSelection = true;
         Scanner scanner = new Scanner(System.in);
         while (isMakingSelection) {
-            System.out.printf("Hello! Welcome to the Accounting Ledger application. %nWhat would you like to do? %n");
+            System.out.printf("Hello! Welcome to the Accounting Ledger application.%nWhat would you like to do?%n");
             System.out.println("1. Add a Deposit.");
             System.out.println("2. Make a Payment(Debit).");
             System.out.println("3. Display Ledger.");
@@ -46,13 +54,13 @@ public class Main {
 
             while (true) {
                 try {
-                    homeScanner = scanner.nextInt(); //read choice from user
+                    homeScanner = scanner.nextInt();
                     if (homeScanner >= 1 && homeScanner <= 4) {
-                        break; //if a valid choice is selected continue app as normal, if invalid user will be asked for a valid input
+                        break; // If a valid choice is selected, continue the app as normal; if invalid, the user will be asked for valid input
                     } else {
                         System.out.println("Please enter a valid choice between 1 and 4: ");
                     }
-                } catch (InputMismatchException ex) { //making sure input is an integer if string user will be asked to input an integer
+                } catch (InputMismatchException ex) { // Making sure the input is an integer; if it's a string, the user will be asked to input an integer
                     System.out.println("Please enter a valid integer choice: ");
                     scanner.next();
                 }
@@ -73,13 +81,12 @@ public class Main {
         }
     }
     static void addDeposit(ArrayList<Ledger> transactionList) {
-        // Method for addDeposit
         Scanner scanner = new Scanner(System.in);
         System.out.println("Please enter the following deposit information:");
         System.out.println("Enter the date (YYYY-MM-DD): ");
-        String dateInput = scanner.nextLine();
-        System.out.println("Enter the time (Hour:Minute): ");
-        String timeInput = scanner.nextLine();
+        LocalDate dateInput = LocalDate.parse(scanner.nextLine());
+        System.out.println("Enter the time (Hour:Minute AM/PM): ");
+        LocalTime timeInput = LocalTime.parse(scanner.nextLine(), DateTimeFormatter.ofPattern("h:mm a"));
         System.out.println("Enter a description: ");
         String userDescription = scanner.nextLine();
         System.out.println("Enter the vendor name: ");
@@ -97,14 +104,13 @@ public class Main {
             File file = new File("src/main/resources/transactions.csv");
 
             boolean fileExists = file.exists();
-
-            //if the file doesn't exist or is empty, write the header
-            if (!fileExists || file.length() == 0) {
+            // If the file doesn't exist, write the header
+            if (!fileExists) {
                 FileWriter newTransactionWriter = new FileWriter("src/main/resources/transactions.csv");
                 newTransactionWriter.write("Date|Time|Description|Vendor|Amount\n");
                 newTransactionWriter.close();
             }
-            //adding each new deposit to csv file
+            // Adding each new deposit to the CSV file
             FileWriter appendTransactionWriter = new FileWriter("src/main/resources/transactions.csv", true);
             appendTransactionWriter.write(
                     newTransaction.getDate() + "|" +
@@ -118,11 +124,23 @@ public class Main {
             System.out.println("There's a problem with saving the transaction to CSV.");
         }
     }
+    static void makePayment(ArrayList<Ledger> transactionList) {
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Please enter the following payment information:");
+        System.out.println("Enter the date (YYYY-MM-DD): ");
+        LocalDate dateInput = LocalDate.parse(scanner.nextLine());
+        System.out.println("Enter the time (Hour:Minute AM/PM): ");
+        LocalTime timeInput = LocalTime.parse(scanner.nextLine(), DateTimeFormatter.ofPattern("h:mm a"));
+        System.out.println("Enter a description: ");
+        String userDescription = scanner.nextLine();
+        System.out.println("Enter the vendor name: ");
+        String vendorName = scanner.nextLine();
+        System.out.println("Enter an amount: ");
+        double paymentAmount = scanner.nextDouble();
 
-    static <Transcation> void makePayment(ArrayList<Ledger> transactionList) {
-
-    }
-    static <Transcation> void displayLedger(ArrayList<Ledger> transactionList) {
-
+        Ledger newTransaction = new Ledger(dateInput, timeInput, userDescription, vendorName, -paymentAmount);
+        transactionList.add(newTransaction);
+        saveTransactionToCSV(newTransaction);
+        System.out.println("Payment successfully added. \n");
     }
 }
