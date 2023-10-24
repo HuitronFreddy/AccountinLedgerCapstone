@@ -63,43 +63,8 @@ public class Ledger {
     public void setDescription(String description) {
         this.description = description;
     }
-    static void displayLedger(ArrayList<Ledger> transactionList) {
-        Scanner scanner = new Scanner(System.in);
-        boolean isMakingSelection = true;
 
-        while (isMakingSelection) {
-            System.out.println("Welcome to the Ledger Menu.");
-            System.out.println("1. Display all entries.");
-            System.out.println("2. Display Deposits.");
-            System.out.println("3. Display Payments.");
-            System.out.println("4. Run Report.");
-            System.out.println("5. Go back to the home screen.");
-            System.out.print("Please enter a number: ");
-
-            int choice = scanner.nextInt();
-
-            switch (choice) {
-                case 1:
-                    displayAllEntries(transactionList);
-                    break;
-                case 2:
-                    displayDeposits(transactionList);
-                    break;
-                case 3:
-                    displayPayments(transactionList);
-                    break;
-                case 4:
-                    runReport(transactionList);
-                    break;
-                case 5:
-                    isMakingSelection = false;
-                    break;
-                default:
-                    System.out.println("Invalid choice. Please enter a valid option.");
-            }
-        }
-    }
-    static void displayAllEntries(ArrayList<Ledger> transactionList) {
+    /*static void displayAllEntries(ArrayList<Ledger> transactionList) {
         // Sort the transactionList by date in descending order (newest to oldest)
         Collections.sort(transactionList, Comparator.comparing(Ledger::getDate).reversed());
         // Display all entries from transactionList
@@ -107,7 +72,6 @@ public class Ledger {
             System.out.println(transaction);
         }
     }
-
     static void displayDeposits(ArrayList<Ledger> transactionList) {
         // Sort again newest to oldest
         Collections.sort(transactionList, Comparator.comparing(Ledger::getDate).reversed());
@@ -118,7 +82,6 @@ public class Ledger {
             }
         }
     }
-
     static void displayPayments(ArrayList<Ledger> transactionList) {
         // Sort again newest to oldest
         Collections.sort(transactionList, Comparator.comparing(Ledger::getDate).reversed());
@@ -131,5 +94,5 @@ public class Ledger {
     }
     static void runReport(ArrayList<Ledger> transactionList) {
         // report method here
-    }
+    }*/
 }
