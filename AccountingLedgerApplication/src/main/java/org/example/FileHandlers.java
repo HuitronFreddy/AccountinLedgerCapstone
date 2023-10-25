@@ -17,7 +17,7 @@ public class FileHandlers {
         try {
             FileInputStream fis = new FileInputStream(TRANSACTIONS_FILE_PATH);
             Scanner scanner = new Scanner(fis);
-            scanner.nextLine(); // Skip the header line
+            scanner.nextLine();
             while (scanner.hasNextLine()) {
                 String line = scanner.nextLine();
                 String[] transaction = line.split("\\|");
@@ -26,6 +26,7 @@ public class FileHandlers {
                 String description = transaction[2];
                 String vendor = transaction[3];
                 double amount = Double.parseDouble(transaction[4]);
+                //creating new ledger object
                 Ledger newTransaction = new Ledger(date, time, description, vendor, amount);
                 transactionList.add(newTransaction);
             }
@@ -51,6 +52,7 @@ public class FileHandlers {
             }
             // Adding each new deposit to the CSV file
             FileWriter appendTransactionWriter = new FileWriter("src/main/resources/transactions.csv", true);
+            //pipe delimited
             appendTransactionWriter.write(
                     newTransaction.getDate() + "|" +
                             newTransaction.getTime() + "|" +

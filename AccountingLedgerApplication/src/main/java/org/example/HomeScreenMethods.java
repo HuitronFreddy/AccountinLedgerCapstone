@@ -24,6 +24,7 @@ public class HomeScreenMethods {
         System.out.println("Enter an amount: ");
         double depositAmount = scanner.nextDouble();
 
+        //saving each created deposit into transaction.csv
         Ledger newTransaction = new Ledger(dateInput, timeInput, userDescription, vendorName, depositAmount);
         transactionList.add(newTransaction);
         saveTransactionToCSV(newTransaction);
@@ -43,6 +44,7 @@ public class HomeScreenMethods {
         System.out.println("Enter an amount: ");
         double paymentAmount = scanner.nextDouble();
 
+        //saving each created payment into transaction.csv
         Ledger newTransaction = new Ledger(dateInput, timeInput, userDescription, vendorName, -paymentAmount);
         transactionList.add(newTransaction);
         saveTransactionToCSV(newTransaction);
